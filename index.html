@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>Maintenance</title>
+    <script src="https://cdn.ravenjs.com/3.26.2/raven.min.js" crossorigin="anonymous"></script>
     <style>
       /* CSS from https://codepen.io/cluzier/pen/BOZmMp */
       html, body {
@@ -133,5 +134,9 @@
     <footer>
       Fabrique numérique des Ministères Sociaux - <a href="mailto:DSI-incubateur@sg.social.gouv.fr">DSI-incubateur@sg.social.gouv.fr</a>
     </footer>
+    <script>
+      Raven.config('https://7b80ba66958845f4b44790ffc7191638@sentry.tools.factory.social.gouv.fr/28').install();
+      Raven.captureException(new Error());
+    </script>
   </body>
 </html>
