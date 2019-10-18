@@ -63,7 +63,9 @@
 
       .message {
         color: #92c4e4;
+        padding:0 4em;
       }
+
       footer {
         width:100%;
         position: fixed;
@@ -73,12 +75,22 @@
         height:40px;
         line-height:40px;
         color: #666;
+
       }
 
       footer a {
         color: #666;
       }
 
+      @media only screen and (max-width: 600px) {
+        .error-page h1 {
+          font-size: 3em !important;
+        }
+        .error-page h1 + p {
+          font-size: 2em;
+          line-height: 10vw;
+        }
+      }
 
       @keyframes animateTextBackground {
         0% {
@@ -97,6 +109,7 @@
           background-position: 0 0;
         }
       }
+
       @keyframes fadeIn {
         0% {
           opacity: 0;
@@ -105,16 +118,7 @@
           opacity: 1;
         }
       }
-      @media (max-width: 767px) {
-        .error-page h1 {
-          font-size: 32vw;
-        }
-        .error-page h1 + p {
-          font-size: 8vw;
-          line-height: 10vw;
-          max-width: 70vw;
-        }
-      }
+
     </style>
   </head>
   <body>
@@ -126,10 +130,8 @@
         <p class="message">Nos équipes ont été notifées et interviendront dans les meilleurs délais.</p>
       </div>
     </div>
-
     <footer>
       Fabrique numérique des Ministères Sociaux - <a href="mailto:DSI-incubateur@sg.social.gouv.fr">DSI-incubateur@sg.social.gouv.fr</a>
     </footer>
-
   </body>
 </html>
