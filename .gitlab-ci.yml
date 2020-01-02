@@ -13,5 +13,7 @@ upload_index_file_to_blob:
   image: ${INFRA_ANSIBLE_CI_DOCKER_IMAGE}:${SOCIALGOUV_DOCKER_IMAGE_VERSION}
   script:
     - az storage blob upload --container-name errorpage --name index.html --file index.html
+  only:
+    - master
 
 ...
