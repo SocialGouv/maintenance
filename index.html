@@ -1,11 +1,12 @@
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Maintenance</title>
-    <script src="https://cdn.ravenjs.com/3.26.2/raven.min.js" crossorigin="anonymous"></script>
+    <script src="https://browser.sentry-cdn.com/5.15.5/bundle.min.js"></script>
     <style>
       /* CSS from https://codepen.io/cluzier/pen/BOZmMp */
-      html, body {
+      html,
+      body {
         height: 100%;
         overflow: hidden;
         background: #f7f7f7;
@@ -25,7 +26,7 @@
         font-weight: bold;
         position: relative;
         padding: 0;
-        margin-bottom:2vh;
+        margin-bottom: 2vh;
       }
       .error-page h1:after {
         content: attr(data-h1);
@@ -35,7 +36,16 @@
         right: 0;
         color: transparent;
         /* webkit only for graceful degradation to IE */
-        background: -webkit-repeating-linear-gradient(-45deg, #71b7e6, #69a6ce, #b98acc, #ee8176, #b98acc, #69a6ce, #9b59b6);
+        background: -webkit-repeating-linear-gradient(
+          -45deg,
+          #71b7e6,
+          #69a6ce,
+          #b98acc,
+          #ee8176,
+          #b98acc,
+          #69a6ce,
+          #9b59b6
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-size: 400%;
@@ -43,7 +53,7 @@
         animation: animateTextBackground 10s ease-in-out infinite;
       }
       .error-page h1 + p {
-        margin-top:1vh;
+        margin-top: 1vh;
         color: #606060;
         font-size: 5vh;
         font-weight: bold;
@@ -65,19 +75,18 @@
 
       .message {
         color: #226087;
-        padding:0 4em;
+        padding: 0 4em;
       }
 
       footer {
-        width:100%;
+        width: 100%;
         position: fixed;
         bottom: 0;
         background: #efefef;
         text-align: center;
-        height:40px;
-        line-height:40px;
+        height: 40px;
+        line-height: 40px;
         color: #666;
-
       }
 
       footer a {
@@ -120,7 +129,6 @@
           opacity: 1;
         }
       }
-
     </style>
   </head>
   <body>
@@ -129,15 +137,59 @@
         <h1 data-h1="Maintenance">Maintenance</h1>
         <p data-p="Erreur sur la page">Erreur sur la page</p>
         <p>&nbsp;</p>
-        <p class="message">Nos équipes ont été notifiées et interviendront dans les meilleurs délais.</p>
+        <p class="message">
+          Nos équipes ont été notifiées et interviendront dans les meilleurs
+          délais.
+        </p>
       </div>
     </div>
     <footer>
-      Fabrique numérique des Ministères Sociaux - <a href="mailto:DSI-incubateur@sg.social.gouv.fr">DSI-incubateur@sg.social.gouv.fr</a>
+      Fabrique numérique des Ministères Sociaux -
+      <a href="mailto:DSI-incubateur@sg.social.gouv.fr"
+        >DSI-incubateur@sg.social.gouv.fr</a
+      >
     </footer>
     <script>
-      Raven.config('https://7b80ba66958845f4b44790ffc7191638@sentry.fabrique.social.gouv.fr/28').install();
-      Raven.captureException(new Error());
+      (function () {
+        var hostname = document.location.hostname;
+        var dsn =
+          "https://7b80ba66958845f4b44790ffc7191638@sentry.fabrique.social.gouv.fr/28";
+
+        var FABRIQUE_DOMAIN = ".fabrique.social.gouv.fr";
+        var DEV_FABRIQUE_DOMAIN = ".dev.fabrique.social.gouv.fr";
+
+        var environment =
+          //
+          // The `//*.dev.fabrique.social.gouv.fr` case
+          (hostname.indexOf(DEV_FABRIQUE_DOMAIN) > 0 &&
+            DEV_FABRIQUE_DOMAIN) ||
+          //
+          // The `//*.fabrique.social.gouv.fr` case
+          (hostname.indexOf(FABRIQUE_DOMAIN) > 0 && FABRIQUE_DOMAIN) ||
+          //
+          // The `//fabrique.social.gouv.fr` case
+          (hostname === FABRIQUE_DOMAIN.slice(1) && FABRIQUE_DOMAIN) ||
+          //
+          // Other domains
+          hostname;
+
+        Sentry.init({
+          dsn: dsn,
+          environment: environment,
+        });
+
+        if (environment === FABRIQUE_DOMAIN) {
+          var project =
+            // The `//fabrique.social.gouv.fr` case
+            (hostname === FABRIQUE_DOMAIN.slice(1) && "www") ||
+            //
+            // The `//<project>.fabrique.social.gouv.fr` case
+            hostname.slice(0, hostname.indexOf(FABRIQUE_DOMAIN));
+          Sentry.setTag("project", project);
+        }
+
+        Sentry.captureException(new Error());
+      })();
     </script>
   </body>
 </html>
