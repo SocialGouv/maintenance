@@ -151,7 +151,7 @@
     </footer>
     <script>
       (function () {
-        var url = new URL(location);
+        var hostname = document.location.hostname;
         var dsn =
           "https://7b80ba66958845f4b44790ffc7191638@sentry.fabrique.social.gouv.fr/28";
 
@@ -161,14 +161,14 @@
         var environment =
           //
           // The `//*.dev.fabrique.social.gouv.fr` case
-          (url.hostname.indexOf(DEV_FABRIQUE_DOMAIN) > 0 &&
+          (hostname.indexOf(DEV_FABRIQUE_DOMAIN) > 0 &&
             DEV_FABRIQUE_DOMAIN) ||
           //
           // The `//*.fabrique.social.gouv.fr` case
-          (url.hostname.indexOf(FABRIQUE_DOMAIN) > 0 && FABRIQUE_DOMAIN) ||
+          (hostname.indexOf(FABRIQUE_DOMAIN) > 0 && FABRIQUE_DOMAIN) ||
           //
           // The `//fabrique.social.gouv.fr` case
-          (url.hostname === FABRIQUE_DOMAIN.slice(1) && FABRIQUE_DOMAIN) ||
+          (hostname === FABRIQUE_DOMAIN.slice(1) && FABRIQUE_DOMAIN) ||
           //
           // Other domains
           url.hostname;
@@ -181,10 +181,10 @@
         if (environment === FABRIQUE_DOMAIN) {
           var project =
             // The `//fabrique.social.gouv.fr` case
-            (url.hostname === FABRIQUE_DOMAIN.slice(1) && "www") ||
+            (hostname === FABRIQUE_DOMAIN.slice(1) && "www") ||
             //
             // The `//<project>.fabrique.social.gouv.fr` case
-            url.hostname.slice(0, url.hostname.indexOf(FABRIQUE_DOMAIN));
+            hostname.slice(0, url.hostname.indexOf(FABRIQUE_DOMAIN));
           Sentry.setTag("project", project);
         }
 
