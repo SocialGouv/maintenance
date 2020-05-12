@@ -171,7 +171,7 @@
           (hostname === FABRIQUE_DOMAIN.slice(1) && FABRIQUE_DOMAIN) ||
           //
           // Other domains
-          url.hostname;
+          hostname;
 
         Sentry.init({
           dsn: dsn,
@@ -184,7 +184,7 @@
             (hostname === FABRIQUE_DOMAIN.slice(1) && "www") ||
             //
             // The `//<project>.fabrique.social.gouv.fr` case
-            hostname.slice(0, url.hostname.indexOf(FABRIQUE_DOMAIN));
+            hostname.slice(0, hostname.indexOf(FABRIQUE_DOMAIN));
           Sentry.setTag("project", project);
         }
 
