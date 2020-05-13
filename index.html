@@ -188,7 +188,7 @@
           Sentry.setTag("project", project);
         }
 
-        Sentry.captureException(new Error());
+        Sentry.captureException(new Error(hostname));
       })();
     </script>
   </body>
